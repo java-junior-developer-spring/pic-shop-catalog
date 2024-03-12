@@ -22,12 +22,18 @@ public class PictureHandler {
     // /{url} serverRequest.pathVariable
     // ?id=1& serverRequest.queryParam
     public Mono<ServerResponse> pictureById(ServerRequest serverRequest){
-        Integer id = Integer.valueOf(serverRequest.queryParam("id")
+        return serverRequest.queryParam("id")
+                .map(Integer::parseInt)
+                .map(value -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(pictureService.getPictureById(value), Picture.class)
+                ).orElse(ServerResponse.badRequest().build());
+        /*Integer id = Integer.valueOf(serverRequest.queryParam("id")
                 .orElse(null));
         if (id == null) return ServerResponse.badRequest().build();
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(pictureService.getPictureById(id), Picture.class);
+                .body(pictureService.getPictureById(id), Picture.class);*/
     }
 }
 // {"id":1, "price": 2000}
