@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS pic_catalog_pictures;
+DROP TABLE IF EXISTS pic_catalog_genres;
+
 CREATE TABLE IF NOT EXISTS pic_catalog_genres
 (
     id         SERIAL PRIMARY KEY,
