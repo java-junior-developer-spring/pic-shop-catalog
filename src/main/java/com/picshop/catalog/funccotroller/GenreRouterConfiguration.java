@@ -11,7 +11,6 @@ public class GenreRouterConfiguration {
     public RouterFunction<ServerResponse> getBookByUrl(GenreHandler genreHandler) {
         return RouterFunctions.route()
                 .GET("/api/genres/{url}", // Mono<T> handle(ServerRequest request)
-                        RequestPredicates.accept(MediaType.TEXT_PLAIN),
                         serverRequest -> genreHandler.bookByUrl(serverRequest))
                 .build();
     }
