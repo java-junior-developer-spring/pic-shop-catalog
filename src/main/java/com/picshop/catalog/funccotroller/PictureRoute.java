@@ -15,4 +15,12 @@ public class PictureRoute {
                         serverRequest -> pictureHandler.pictureById(serverRequest))
                 .build();
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> getPictureFilter(PictureHandler pictureHandler) {
+        return RouterFunctions.route()
+                .GET("/api/pictures/filtered", // Mono<T> handle(ServerRequest request)
+                        serverRequest -> pictureHandler.pictureByParams(serverRequest))
+                .build();
+    }
 }

@@ -8,7 +8,11 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class PictureHandler {
@@ -21,24 +25,34 @@ public class PictureHandler {
 
     // /{url} serverRequest.pathVariable
     // ?id=1& serverRequest.queryParam
-    public Mono<ServerResponse> pictureById(ServerRequest serverRequest){
+    public Mono<ServerResponse> pictureById(ServerRequest serverRequest) {
         return serverRequest.queryParam("id")
                 .map(Integer::parseInt)
                 .map(value -> ServerResponse.ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(pictureService.getPictureById(value), Picture.class)
-                ).orElse(ServerResponse.badRequest().build());
-        /*Integer id = Integer.valueOf(serverRequest.queryParam("id")
-                .orElse(null));
-        if (id == null) return ServerResponse.badRequest().build();
+                )
+                .orElse(ServerResponse.badRequest().build());
+    }
+
+    public Mono<ServerResponse> pictureByParams(ServerRequest serverRequest) {
+        int priceFrom = serverRequest.queryParam("price_from")
+                .map(Integer::parseInt)
+                .orElse(-1); // значение считается не переданным,
+        // поиск по данному параметру не будет использоваться в select запросе
+        int priceTo = serverRequest.queryParam("price_to")
+                .map(Integer::parseInt)
+                .orElse(-1); // значение считается не переданным,
+        // поиск по данному параметру не будет использоваться в select запросе
+        LocalDate dateFrom = serverRequest.queryParam("date_from")
+                .map(LocalDate::parse)
+                .orElse(LocalDate.EPOCH); // значение по умолчанию
+        LocalDate dateTo = serverRequest.queryParam("date_to")
+                .map(LocalDate::parse)
+                .orElse(LocalDate.MAX); // значение по умолчанию
+        System.out.println(priceTo);
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                .body(pictureService.getPictureById(id), Picture.class);*/
+                .body(pictureService.getPictureByFilter(priceFrom, priceTo, dateFrom, dateTo), Picture.class);
     }
 }
-// {"id":1, "price": 2000}
-// {"id":1, "price": 2000, "genreName": "Портрет"}
-// PictureDTO
-// picture: picture {"id":1, "price": 2000,
-// "genre":{"id":3, "url":"portrait", "name": "Портрет"}}
-// genreName: picture.getGenre().getName()
