@@ -1,6 +1,7 @@
 package com.picshop.catalog.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -20,6 +21,8 @@ public class Picture {
     private LocalDate createdAt;
     @Column("in_archive")
     private boolean inArchive;
+    // private int genreId;
+
     private Genre genre;
 
     public String getImgPath() {

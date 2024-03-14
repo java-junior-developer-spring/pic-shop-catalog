@@ -1,7 +1,9 @@
 package com.picshop.catalog.funccotroller;
 
+import com.picshop.catalog.dto.OrderResponse01;
 import com.picshop.catalog.model.Genre;
 import com.picshop.catalog.model.Picture;
+import com.picshop.catalog.service.CatalogToOrderService;
 import com.picshop.catalog.service.PictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -10,6 +12,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -54,5 +57,10 @@ public class PictureHandler {
         return ServerResponse.ok()
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(pictureService.getPictureByFilter(priceFrom, priceTo, dateFrom, dateTo), Picture.class);
+    }
+
+    public Mono<ServerResponse> recommendedPictures(ServerRequest serverRequest) {
+        int userId = 1;
+        return null;
     }
 }

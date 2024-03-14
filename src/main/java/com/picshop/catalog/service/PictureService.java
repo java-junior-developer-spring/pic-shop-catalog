@@ -1,5 +1,6 @@
 package com.picshop.catalog.service;
 
+import com.picshop.catalog.dto.OrderResponse01;
 import com.picshop.catalog.model.Picture;
 import com.picshop.catalog.repository.PictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +41,6 @@ public class PictureService {
     public Picture getDefaultPicture() {
         return new Picture();
     }
+
 }
 

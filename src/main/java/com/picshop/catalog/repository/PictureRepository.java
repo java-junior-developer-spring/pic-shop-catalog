@@ -30,8 +30,11 @@ public interface PictureRepository extends R2dbcRepository<Picture, Integer> {
             "AND created_at > :dateFrom AND created_at < :dateTo AND in_archive = false")
     Flux<Picture> findWithFilter(int priceFrom, int priceTo, LocalDate dateFrom, LocalDate dateTo);
 
-    @Query("select * from pic_catalog_pictures join pic_catalog_genres on pic_catalog_pictures.genre_id = pic_catalog_genres.id WHERE pic_catalog_pictures.id = :id")
+    @Query("select pic.id as pic_id, picture_name, picture_description, tag, img_path, price, created_at, in_archive, genre_id, gnr.id as gnr_id, genre_name, url " +
+            "from pic_catalog_pictures pic join pic_catalog_genres gnr on pic.genre_id = gnr.id WHERE pic.id = :id")
     Mono<Picture> findById(int id);
+
+
 }
 
 

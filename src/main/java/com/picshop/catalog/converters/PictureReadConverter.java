@@ -14,12 +14,12 @@ public class PictureReadConverter implements Converter<Row, Picture> {
     @Override
     public Picture convert(Row source) {
         Genre genre = new Genre();
-        genre.setId(source.get("id", Integer.class));
+        genre.setId(source.get("gnr_id", Integer.class));
         genre.setName(source.get("genre_name", String.class));
         genre.setUrl(source.get("url", String.class));
 
         Picture picture = new Picture();
-        picture.setId(source.get("id", Integer.class));
+        picture.setId(source.get("pic_id", Integer.class));
         picture.setDescription(source.get("picture_description", String.class));
         picture.setPrice(source.get("price", Integer.class));
         picture.setName(source.get("picture_name", String.class));
