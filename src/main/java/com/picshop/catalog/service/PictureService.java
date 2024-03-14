@@ -27,6 +27,10 @@ public class PictureService {
 
     public Flux<Picture> getPictureByFilter(int priceFrom, int priceTo, LocalDate dateFrom, LocalDate dateTo) {
         return pictureRepository.findWithFilter(priceFrom, priceTo, dateFrom, dateTo)
+                .flatMap(picture -> {
+                    System.out.println(picture.getGenre());
+                    return Flux.just(picture);
+                })
                 .doOnError(throwable -> {
                     System.out.println(throwable.getMessage());
                 })

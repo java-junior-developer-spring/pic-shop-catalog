@@ -17,7 +17,6 @@ public class Picture {
     private String tag;
     private String imgPath;
     private int price;
-    @Column("created_at")
     private LocalDate createdAt;
     @Column("in_archive")
     private boolean inArchive;
