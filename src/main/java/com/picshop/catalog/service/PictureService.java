@@ -6,10 +6,12 @@ import com.picshop.catalog.repository.PictureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class PictureService {
@@ -40,6 +42,10 @@ public class PictureService {
 
     public Picture getDefaultPicture() {
         return new Picture();
+    }
+
+    public Flux<Integer> archivePictures(List<Integer> picturesIds){
+        return pictureRepository.archivePictures(picturesIds);
     }
 
 }

@@ -3,17 +3,23 @@ package com.picshop.catalog.repository;
 import com.picshop.catalog.model.Genre;
 import com.picshop.catalog.model.Picture;
 import io.r2dbc.spi.ConnectionFactory;
+import org.springframework.data.r2dbc.repository.Modifying;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.r2dbc.repository.R2dbcRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface PictureRepository extends R2dbcRepository<Picture, Integer> {
     // price_from price_to date_from date_to
-
+    @Query("UPDATE pic_catalog_pictures SET in_archive = true WHERE id IN (:picturesIds) RETURNING id")
+    @Modifying
+    @Transactional
+    Flux<Integer> archivePictures(List<Integer> picturesIds);
 
     Flux<Picture> findPictureByPriceBetweenAndCreatedAtBetweenAndInArchiveFalse(
             int priceFrom, int priceTo,
